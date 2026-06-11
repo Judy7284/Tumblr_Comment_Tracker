@@ -3,7 +3,6 @@ function ResultHeader({
   totalComments,
   blog,
   scannedPosts,
-  scannedOriginalPosts,
 }) {
   return (
     <section className="result-header">
@@ -20,7 +19,6 @@ function ResultHeader({
       <div className="scan-stats">
         <p>Total Posts: {blog?.totalPosts || 0}</p>
         <p>Scanned Posts: {scannedPosts}</p>
-        <p>Original Posts Scanned: {scannedOriginalPosts}</p>
         <p>Comments Found: {totalComments}</p>
       </div>
     </section>

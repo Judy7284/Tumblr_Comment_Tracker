@@ -64,7 +64,7 @@ function App() {
       const response = await fetch(
         `http://localhost:5000/api/comments/${encodeURIComponent(
           username
-        )}?offset=${offsetToUse}&limit=20`
+        )}?offset=${offsetToUse}&limit=50`
       );
 
       const data = await response.json();
@@ -177,13 +177,6 @@ function App() {
                 style={{ width: `${totalPosts > 0 ? (scannedPosts / totalPosts) * 100 : 0}%` }}
               ></div>
             </div>
-            <div className="progress-text">
-              Scanned {scannedPosts} of {totalPosts} posts
-              {currentBatchComments > 0 && ` • Found ${currentBatchComments} comments in this batch`}
-            </div>
-            <div className="loading-status">
-              {isLoading ? "Loading posts..." : "Fetching comments from posts..."}
-            </div>
           </section>
         )}
 
@@ -194,7 +187,6 @@ function App() {
               totalComments={totalCommentsFound}
               blog={blog}
               scannedPosts={scannedPosts}
-              scannedOriginalPosts={scannedPosts}
               totalPosts={totalPosts}
             />
 
@@ -213,12 +205,6 @@ function App() {
                 <button onClick={handleScanNext} disabled={isScanningMore}>
                   {isScanningMore ? "Scanning more posts..." : `Load More Posts (${scannedPosts}/${totalPosts} scanned)`}
                 </button>
-              </div>
-            )}
-
-            {!hasMorePosts && allComments.length > 0 && (
-              <div className="scan-complete-message">
-                ✓ Complete! Scanned all {scannedPosts} posts and found {totalCommentsFound} comments
               </div>
             )}
 

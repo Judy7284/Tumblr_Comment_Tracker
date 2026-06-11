@@ -5,7 +5,7 @@ function CommentList({ comments }) {
     return (
       <section className="comments-list">
         <div className="no-comments">
-          <p>✨ No comments found on this blog's posts yet.</p>
+          <p> No comments found on this blog's posts yet.</p>
           <p>Try searching another blog or scan more posts!</p>
         </div>
       </section>

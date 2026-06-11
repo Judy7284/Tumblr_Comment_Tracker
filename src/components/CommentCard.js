@@ -17,7 +17,7 @@ function CommentCard({ comment, isReply = false }) {
           <p className="date">{new Date(comment.date).toLocaleString()}</p>
         </div>
 
-        <p className="comment-text">“{comment.text}”</p>
+        <p className="comment-text">"{comment.text}"</p>
 
         {comment.replies && comment.replies.length > 0 && (
           <section className="replies">

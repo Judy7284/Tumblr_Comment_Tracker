@@ -229,7 +229,7 @@ app.get("/api/comments/:username", async (req, res) => {
     }
 
     res.status(500).json({
-      message: "Something went wrong while fetching Tumblr comments.",
+      message: "Something went wrong, please make sure that the blog exists and it;s setting is not set to hidden from web. If error still persist Tumblr's API may be temporarily unavailable, please try again later.",
       error: error.message,
       comments: [],
     });

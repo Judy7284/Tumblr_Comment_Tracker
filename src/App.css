@@ -519,3 +519,18 @@ a {
     flex-direction: row;
   }
 }
+
+.error-box {
+  background: #f6e8c8;
+  border: 2px solid #8a3f2d;
+  color: #4a1f17;
+  padding: 16px 18px;
+  margin: 18px 0;
+  font-style: italic;
+}
+
+.error-box strong {
+  display: block;
+  margin-bottom: 6px;
+  font-style: normal;
+}

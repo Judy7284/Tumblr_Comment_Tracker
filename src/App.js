@@ -26,35 +26,46 @@ function App() {
   const [sortBy, setSortBy] = useState("date");
   const [sortDirection, setSortDirection] = useState("desc");
   const [currentPage, setCurrentPage] = useState(1);
-  
+
   const [hasSearched, setHasSearched] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const commentsPerPage = 20;
 
   useEffect(() => {
-    if (allComments.length > 0) {
-      const sorted = [...allComments].sort((a, b) => {
-        if (sortBy === "date") {
-          return sortDirection === "desc" 
-            ? new Date(b.date) - new Date(a.date)
-            : new Date(a.date) - new Date(b.date);
-        } else if (sortBy === "post") {
-          if (a.postDate === b.postDate) {
-            return new Date(a.date) - new Date(b.date);
-          }
-          return sortDirection === "desc"
-            ? new Date(b.postDate) - new Date(a.postDate)
-            : new Date(a.postDate) - new Date(b.postDate);
-        }
-        return 0;
-      });
-      setDisplayedComments(sorted);
-      setCurrentPage(1);
+    if (allComments.length === 0) {
+      setDisplayedComments([]);
+      return;
     }
+
+    const sorted = [...allComments].sort((a, b) => {
+      if (sortBy === "date") {
+        return sortDirection === "desc"
+          ? new Date(b.date) - new Date(a.date)
+          : new Date(a.date) - new Date(b.date);
+      }
+
+      if (sortBy === "post") {
+        if (a.postDate === b.postDate) {
+          return new Date(a.date) - new Date(b.date);
+        }
+
+        return sortDirection === "desc"
+          ? new Date(b.postDate) - new Date(a.postDate)
+          : new Date(a.postDate) - new Date(b.postDate);
+      }
+
+      return 0;
+    });
+
+    setDisplayedComments(sorted);
+    setCurrentPage(1);
   }, [allComments, sortBy, sortDirection]);
 
   const fetchComments = async (offsetToUse, shouldReplace, isLoadMore = false) => {
     try {
+      setErrorMessage("");
+
       if (isLoadMore) {
         setIsScanningMore(true);
       } else {
@@ -70,7 +81,11 @@ function App() {
       const data = await response.json();
 
       if (!response.ok) {
-        alert(data.message || "Something went wrong.");
+        setErrorMessage(
+          data.message ||
+            "Unable to retrieve comments for this blog. Double check that the blog exists and is not private. If everything looks correct, Tumblr's API may be temporarily unavailable. Please try again later."
+        );
+
         setIsLoading(false);
         setIsScanningMore(false);
         return;
@@ -83,11 +98,11 @@ function App() {
         setTotalPosts(data.totalPosts || 0);
         setScannedPosts(data.scannedPosts || 0);
       } else {
-        setAllComments(prev => [...prev, ...(data.comments || [])]);
+        setAllComments((prev) => [...prev, ...(data.comments || [])]);
         setScannedPosts(data.scannedPosts || 0);
       }
-      
-      setCurrentBatchComments(data.totalCommentsFound || data.comments.length);
+
+      setCurrentBatchComments(data.totalCommentsFound || data.comments?.length || 0);
       setNextOffset(data.nextOffset || 0);
       setHasMorePosts(data.hasMorePosts);
       setHasSearched(true);
@@ -95,24 +110,32 @@ function App() {
       setIsScanningMore(false);
     } catch (error) {
       console.error(error);
+
       setIsLoading(false);
       setIsScanningMore(false);
-      alert("Something went wrong while searching.");
+
+      setErrorMessage(
+        "Unable to retrieve comments for this blog. Double check that the blog exists and is not private. If everything looks correct, Tumblr's API may be temporarily unavailable. Please try again later."
+      );
     }
   };
 
   const handleSearch = () => {
+    setErrorMessage("");
+
     if (username.trim() === "") {
-      alert("Please enter a Tumblr username first.");
+      setErrorMessage("Please enter a Tumblr username first.");
       return;
     }
 
     setAllComments([]);
     setDisplayedComments([]);
+    setBlog(null);
     setScannedPosts(0);
     setTotalPosts(0);
     setNextOffset(0);
     setHasMorePosts(false);
+    setCurrentBatchComments(0);
     setCurrentPage(1);
     setHasSearched(false);
     setSortBy("date");
@@ -136,14 +159,17 @@ function App() {
 
   const countTotalComments = (comments) => {
     let total = 0;
+
     const countRecursive = (commentList) => {
-      commentList.forEach(comment => {
+      commentList.forEach((comment) => {
         total++;
+
         if (comment.replies && comment.replies.length) {
           countRecursive(comment.replies);
         }
       });
     };
+
     countRecursive(comments);
     return total;
   };
@@ -168,14 +194,36 @@ function App() {
           handleSearch={handleSearch}
         />
 
+        {errorMessage && (
+          <section className="error-box">
+            <strong>Search issue</strong>
+            <p>{errorMessage}</p>
+          </section>
+        )}
+
         {(isLoading || isScanningMore) && (
           <section className="loading-box">
             <div>Searching @{username}...</div>
+
             <div className="progress-bar-container">
-              <div 
-                className="progress-bar" 
-                style={{ width: `${totalPosts > 0 ? (scannedPosts / totalPosts) * 100 : 0}%` }}
+              <div
+                className="progress-bar"
+                style={{
+                  width: `${
+                    totalPosts > 0 ? (scannedPosts / totalPosts) * 100 : 0
+                  }%`,
+                }}
               ></div>
+            </div>
+
+            <div className="progress-text">
+              Scanned {scannedPosts} of {totalPosts} posts
+              {currentBatchComments > 0 &&
+                ` • Found ${currentBatchComments} comments in this batch`}
+            </div>
+
+            <div className="loading-status">
+              {isLoading ? "Loading posts..." : "Fetching comments from posts..."}
             </div>
           </section>
         )}
@@ -187,6 +235,7 @@ function App() {
               totalComments={totalCommentsFound}
               blog={blog}
               scannedPosts={scannedPosts}
+              scannedOriginalPosts={scannedPosts}
               totalPosts={totalPosts}
             />
 
@@ -203,8 +252,17 @@ function App() {
             {hasMorePosts && (
               <div className="scan-more-row">
                 <button onClick={handleScanNext} disabled={isScanningMore}>
-                  {isScanningMore ? "Scanning more posts..." : `Load More Posts (${scannedPosts}/${totalPosts} scanned)`}
+                  {isScanningMore
+                    ? "Scanning more posts..."
+                    : `Load More Posts (${scannedPosts}/${totalPosts} scanned)`}
                 </button>
+              </div>
+            )}
+
+            {!hasMorePosts && allComments.length > 0 && (
+              <div className="scan-complete-message">
+                ✓ Complete! Scanned all {scannedPosts} posts and found{" "}
+                {totalCommentsFound} comments
               </div>
             )}
 

@@ -1,70 +1,191 @@
-# Getting Started with Create React App
+# Tumblr Comment Tracker
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Tumblr Comment Tracker is a web application that help user have a easy way to find and organize comments that are left on a accounts post, by scanning all the post on a tumblr blog and through the available not data gathers the comment and replies before organizing them for easy access.
 
-## Available Scripts
+## Why I Built This
 
-In the project directory, you can run:
+As a tumblr user accessing the comment left on my post has always been annoying since tumblr doesnt really have a built in featire for that. You can search through your activity and filter by people leaving comments on your post but those comment often dissappear after a certain amount of time, so whenever I want to look at the comments left on my post my only choice was to go through all my post one by one to see them. When you only have 5 post it's not that big of a deal but when you have over 50 suddenly it gets very very tedious, which is why I made this web application so I can look up all the coment easily in one place.
 
-### `npm start`
+This project was also an opportunity to gain experience working with third-party APIs, OAuth authentication, React state management, and backend data processing.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Features
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Search Tumblr blogs
 
-### `npm test`
+Enter a Tumblr username or blog URL and scan posts from that blog.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Comment aggregation
 
-### `npm run build`
+Collect comments and replies from scanned Tumblr posts and display them in a centralized feed.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Sort comments
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Sort results by date or by the post they belong to.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Pagination
 
-### `npm run eject`
+Large result sets are split into pages to improve performance and navigation.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Incremental scanning
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Scan posts in batches and load more posts when needed rather than processing an entire blog at once.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Responsive interface
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Works across desktop and mobile screen sizes.
 
-## Learn More
+## Tech Stack
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Frontend
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+* React
+* JavaScript
+* CSS
 
-### Code Splitting
+### Backend
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+* Node.js
+* Express
+* Axios
 
-### Analyzing the Bundle Size
+### APIs & Authentication
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+* Tumblr API
+* OAuth 1.0 Authentication
 
-### Making a Progressive Web App
+## How It Works
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+1. The user enters a Tumblr username.
+2. The frontend sends a request to the backend API.
+3. The backend authenticates with Tumblr using OAuth credentials.
+4. Tumblr blog information and posts are retrieved.
+5. Available comment and reply data is processed.
+6. Comments are organized into threaded discussions.
+7. The frontend displays results with sorting and pagination options.
 
-### Advanced Configuration
+## Installation and Local Setup
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### 1. Clone the repository
 
-### Deployment
+```bash
+git clone https://github.com/YOUR_USERNAME/tumblr-comment-tracker.git
+cd tumblr-comment-tracker
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### 2. Install frontend dependencies
 
-### `npm run build` fails to minify
+```bash
+npm install
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### 3. Install backend dependencies
+
+```bash
+cd server
+npm install
+```
+
+### 4. Configure environment variables
+
+Create a `.env` file inside the `server` folder.
+
+```env
+TUMBLR_API_KEY=your_api_key
+TUMBLR_OAUTH_SECRET=your_oauth_secret
+TUMBLR_OAUTH_TOKEN=your_oauth_token
+TUMBLR_ACCESS_TOKEN_SECRET=your_access_token_secret
+```
+
+### 5. Start the backend
+
+```bash
+cd server
+node index.js
+```
+
+### 6. Start the frontend
+
+```bash
+npm start
+```
+
+The application should now be available locally.
+
+## Usage
+
+1. Start the frontend and backend servers.
+2. Enter a Tumblr username.
+3. Click **Search**.
+4. Browse discovered comments and replies.
+5. Sort results by date or post.
+6. Load additional posts if more content is available.
+
+## Example Use Case
+
+A Tumblr user wants to see all discussion activity on a favorite blog without opening dozens of individual posts.
+
+Instead of manually searching through posts:
+
+* Enter the blog username.
+* Scan available posts.
+* View comments from multiple posts in one location.
+* Follow reply chains through nested discussions.
+* Sort activity chronologically.
+
+## Project Structure
+
+```text
+tumblr-comment-tracker/
+├── public/
+├── src/
+│   ├── components/
+│   │   ├── CommentCard.js
+│   │   ├── CommentList.js
+│   │   ├── Header.js
+│   │   ├── Page.js
+│   │   ├── ResultHeader.js
+│   │   ├── SearchSection.js
+│   │   └── SortRow.js
+│   ├── App.js
+│   └── index.js
+│
+├── server/
+│   ├── index.js
+│   ├── get_token.js
+│   ├── package.json
+│   └── .env
+│
+├── package.json
+├── README.md
+└── .gitignore
+```
+
+## Current Status
+
+Current functionality includes:
+
+* Tumblr blog searching
+* OAuth authentication
+* Comment and reply extraction
+* Nested comment display
+* Sorting options
+* Pagination
+* Batch scanning
+* Responsive UI
+
+## Future Improvements
+
+* Save previous searches
+* Export comments to CSV
+* Advanced filtering by user or keyword
+* Search within comments
+* Improved Tumblr note parsing
+* Comment analytics and statistics
+* User accounts and saved dashboards
+* Cloud deployment
+
+## What I Learned
+
+Building Tumblr Comment Tracker helped me gain hands-on experience with React component architecture, Express API development, OAuth authentication flows, third-party API integration, recursive data structures for nested replies, state management, pagination, and processing large datasets in a user-friendly way.
+
+It also strengthened my understanding of how frontend and backend systems communicate, how APIs are authenticated, and how to organize complex data into a clean user experience.

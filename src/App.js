@@ -217,7 +217,6 @@ function App() {
             </div>
 
             <div className="progress-text">
-              Scanned {scannedPosts} of {totalPosts} posts
               {currentBatchComments > 0 &&
                 ` • Found ${currentBatchComments} comments in this batch`}
             </div>

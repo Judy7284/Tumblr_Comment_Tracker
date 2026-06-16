@@ -7,7 +7,7 @@ const OAuth = require("oauth-1.0a");
 const crypto = require("crypto");
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 const TUMBLR_API_KEY = process.env.TUMBLR_API_KEY;
 const TUMBLR_OAUTH_SECRET = process.env.TUMBLR_OAUTH_SECRET;

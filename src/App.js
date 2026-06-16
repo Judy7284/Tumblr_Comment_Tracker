@@ -73,7 +73,7 @@ function App() {
       }
 
       const response = await fetch(
-        `http://localhost:5000/api/comments/${encodeURIComponent(
+          `https://tumblr-comment-tracker.onrender.com/api/comments/${encodeURIComponent(
           username
         )}?offset=${offsetToUse}&limit=50`
       );

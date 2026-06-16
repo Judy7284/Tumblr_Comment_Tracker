@@ -2,6 +2,10 @@
 
 Tumblr Comment Tracker is a web application that help user have a easy way to find and organize comments that are left on a accounts post, by scanning all the post on a tumblr blog and through the available not data gathers the comment and replies before organizing them for easy access.
 
+## Live Demo
+
+[View the live project](https://tumblr-comment-tracker.netlify.app/)
+
 ## Why I Built This
 
 As a tumblr user accessing the comment left on my post has always been annoying since tumblr doesnt really have a built in featire for that. You can search through your activity and filter by people leaving comments on your post but those comment often dissappear after a certain amount of time, so whenever I want to look at the comments left on my post my only choice was to go through all my post one by one to see them. When you only have 5 post it's not that big of a deal but when you have over 50 suddenly it gets very very tedious, which is why I made this web application so I can look up all the coment easily in one place.
@@ -111,6 +115,10 @@ npm start
 
 The application should now be available locally.
 
+## Deployment
+
+The frontend is deployed with Netlify and the backend is deployed with Render.
+
 ## Usage
 
 1. Start the frontend and backend servers.
@@ -175,14 +183,10 @@ Current functionality includes:
 
 ## Future Improvements
 
-* Save previous searches
-* Export comments to CSV
-* Advanced filtering by user or keyword
 * Search within comments
 * Improved Tumblr note parsing
 * Comment analytics and statistics
 * User accounts and saved dashboards
-* Cloud deployment
 
 ## What I Learned
 

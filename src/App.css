@@ -6,34 +6,108 @@ body {
   margin: 0;
 }
 
-.app-background {
-  min-height: 100vh;
+.app-background{
+
   background:
-    radial-gradient(circle at top left, rgba(255, 220, 160, 0.12), transparent 35%),
-    radial-gradient(circle at bottom right, rgba(255, 220, 160, 0.08), transparent 40%),
-    #21160f;
+
+  radial-gradient(circle at top,
+  #5b402d 0%,
+  #2f2016 35%,
+  #1c120d 100%);
   padding: 40px;
   display: flex;
   justify-content: center;
-  font-family: Georgia, "Times New Roman", serif;
-}
+  font-family: "EB Garamond", serif;}
 
 .paper {
   width: 920px;
   min-height: 850px;
+
+  position: relative;
+  overflow: hidden;
+
   background:
-    linear-gradient(rgba(239, 224, 189, 0.92), rgba(239, 224, 189, 0.92)),
-    repeating-linear-gradient(
-      45deg,
-      rgba(80, 45, 20, 0.04),
-      rgba(80, 45, 20, 0.04) 2px,
-      transparent 2px,
-      transparent 8px
+    radial-gradient(circle at 15% 18%,
+      rgba(255,255,255,.18),
+      transparent 30%),
+
+    radial-gradient(circle at 82% 78%,
+      rgba(120,80,35,.08),
+      transparent 35%),
+
+    radial-gradient(circle at 50% 50%,
+      rgba(255,245,225,.10),
+      transparent 70%),
+
+    linear-gradient(
+      180deg,
+      #f6ecd2 0%,
+      #eddcb5 55%,
+      #e4cd9c 100%
     );
-  border: 1px solid #b99b6b;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.65);
-  padding: 42px;
-  color: #2b1d13;
+
+  box-shadow:
+      0 22px 55px rgba(0,0,0,.55),
+      inset 0 0 120px rgba(110,70,30,.08);
+
+  padding:42px;
+
+  color:#2b1d13;
+}
+
+.paper::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    pointer-events:none;
+
+    opacity:.10;
+
+    background-image:
+
+    radial-gradient(
+        rgba(110,80,45,.45) .5px,
+        transparent .5px
+    );
+
+    background-size:16px 16px;
+
+    mix-blend-mode:multiply;
+}
+
+.paper::after{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    pointer-events:none;
+
+    opacity:.18;
+
+    background:
+
+    radial-gradient(circle at 15% 30%,
+        rgba(120,70,30,.18),
+        transparent 18%),
+
+    radial-gradient(circle at 75% 20%,
+        rgba(120,70,30,.10),
+        transparent 22%),
+
+    radial-gradient(circle at 40% 82%,
+        rgba(120,70,30,.12),
+        transparent 18%),
+
+    radial-gradient(circle at 90% 90%,
+        rgba(120,70,30,.08),
+        transparent 20%);
 }
 
 .header {
@@ -533,4 +607,106 @@ a {
   display: block;
   margin-bottom: 6px;
   font-style: normal;
+}
+
+.parchment-card {
+  position: relative;
+  margin-bottom: 1.7rem;
+  background: transparent;
+  border: none;
+  filter: drop-shadow(0 7px 8px rgba(0, 0, 0, 0.2));
+}
+
+.parchment-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.parchment-bg path {
+  fill: #f3dfb8;
+  stroke: #b68a55;
+  stroke-width: 0.75;
+}
+
+.parchment-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  gap: 1.5rem;
+  padding: 2rem;
+}
+
+.comment-card {
+  border: none;
+  background: transparent;
+}
+
+.comments-list .comment-card:nth-child(odd) {
+  transform: rotate(-0.25deg);
+}
+
+.comments-list .comment-card:nth-child(even) {
+  transform: rotate(0.25deg);
+}
+
+.comment-content {
+  flex: 1;
+}
+
+.comment-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.comment-top h3 {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.6rem;
+  color: #2e1d13;
+}
+
+.comment-top p,
+.date {
+  color: #4b2d1c;
+}
+
+.comment-text {
+  margin-top: 1.2rem;
+  font-family: "Crimson Text", serif;
+  font-size: 1.25rem;
+  font-style: italic;
+  color: #3a2417;
+}
+
+.comment-bottom {
+  text-align: right;
+  margin-top: 1.5rem;
+}
+
+.comment-bottom a,
+.comment-content a {
+  color: #8b2f20;
+  font-weight: 700;
+}
+
+.stamp {
+  width: 70px;
+  height: 70px;
+  border: 2px dashed #a98655;
+  background: #e4c998;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(-3deg);
+  flex-shrink: 0;
+}
+
+.stamp span {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #8b2f20;
 }
